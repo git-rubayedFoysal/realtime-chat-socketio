@@ -26,12 +26,19 @@ const App = () => {
   useEffect(() => {
     socket.on("connect", () => {
       socket.on("room-notice", (name) => {
-        console.log(`${name} was joined.`);
+        const msg = {
+          id: Date.now(),
+          sender: "Realtime Chat",
+          text: `${name} was joined.`,
+          ts: Date.now(),
+          type: "notice",
+        };
+
+        setMessages((prev) => [...prev, msg]);
       });
     });
 
     socket.on("chat:msg", (msg) => {
-      console.log(msg);
       setMessages((prev) => [...prev, msg]);
     });
 
@@ -181,12 +188,22 @@ const App = () => {
           <div className="flex-1 py-3 px-1.5 space-y-2 overflow-auto bg-zinc-100 flex flex-col">
             {messages.map((m) => {
               const mine = m.sender === userName;
+              const isNotice = m.type === "notice";
+
+              if (isNotice) {
+                return (
+                  <div key={m.id} className="flex justify-center my-2">
+                    <div className="bg-amber-100 text-amber-700 rounded-lg px-4 py-2 shadow-sm">
+                      <div className="text-xs italic text-center">
+                        {m.text}
+                      </div>
+                    </div>
+                  </div>
+                );
+              }
 
               return (
-                <div
-                  key={m.id}
-                  className={`flex ${mine ? "justify-end" : "justify-start"}`}
-                >
+                <div key={m.id} className={`flex ${mine ? "justify-end" : "justify-start"}`}>
                   <div
                     className={`max-w-[78%] p-3 my-2 rounded text-sm leading-5 shadow-sm text-[#303030] ${mine ? "bg-[#CCF8C6] rounded-br-2xl" : "bg-white rounded-bl-2xl"}`}
                   >
