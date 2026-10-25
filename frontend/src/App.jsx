@@ -194,16 +194,17 @@ const App = () => {
                 return (
                   <div key={m.id} className="flex justify-center my-2">
                     <div className="bg-amber-100 text-amber-700 rounded-lg px-4 py-2 shadow-sm">
-                      <div className="text-xs italic text-center">
-                        {m.text}
-                      </div>
+                      <div className="text-xs italic text-center">{m.text}</div>
                     </div>
                   </div>
                 );
               }
 
               return (
-                <div key={m.id} className={`flex ${mine ? "justify-end" : "justify-start"}`}>
+                <div
+                  key={m.id}
+                  className={`flex ${mine ? "justify-end" : "justify-start"}`}
+                >
                   <div
                     className={`max-w-[78%] p-3 my-2 rounded text-sm leading-5 shadow-sm text-[#303030] ${mine ? "bg-[#CCF8C6] rounded-br-2xl" : "bg-white rounded-bl-2xl"}`}
                   >
